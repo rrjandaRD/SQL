@@ -1,0 +1,61 @@
+# SQL
+SQL portfolio
+
+CREATE TABLE store_items 
+(item_number INTEGER PRIMARY KEY, 
+name TEXT, 
+instock INTEGER, 
+price INTEGER, 
+popularity INTEGER);
+
+INSERT INTO store_items VALUES (1, "T-shirts", 56, 5.99, 6);
+INSERT INTO store_items VALUES (2, "Pants", 25, 10.99, 3);
+INSERT INTO store_items VALUES (3, "Bracelets", 67, 6.99, 13);
+INSERT INTO store_items VALUES (4, "Necklaces", 27, 8.99, 10);
+INSERT INTO store_items VALUES (5, "Jacket", 35, 16.99, 8);
+INSERT INTO store_items VALUES (6, "Blouse", 45, 10.99, 12);
+INSERT INTO store_items VALUES (7, "Slacks", 48, 14.99, 1);
+INSERT INTO store_items VALUES (8, "Underwear set", 35, 7.99, 11);
+INSERT INTO store_items VALUES (9, "Keychain", 12, 2.99, 7);
+INSERT INTO store_items VALUES (10, "Earings", 46, 4.99,15);
+INSERT INTO store_items VALUES (11, "Headband", 38, 3.99, 5);
+INSERT INTO store_items VALUES (12, "Laptop case", 16, 11.99, 4);
+INSERT INTO store_items VALUES (13, "Shoes", 24, 25.99,14);
+INSERT INTO store_items VALUES (14, "Sandles", 46, 12.99, 2);
+INSERT INTO store_items VALUES (15, "Lip Balm", 52, 2.99, 9);
+
+--display database ordered by items most purchased.
+SELECT * FROM store_items ORDER BY popularity;
+
+--display database ordered by item price.
+SELECT * FROM store_items ORDER BY price;
+
+--display database ordered by stock amounts.
+SELECT * FROM store_items ORDER BY instock;
+
+--display database items where price of item is >10 (higher price items)
+SELECT * FROM store_items WHERE price >10 ORDER BY price;
+
+--display database items where stock is <30 items in the store, ordered by popularity of items (more popular items might need to have greater stock).
+SELECT * FROM store_items WHERE instock <30 ORDER BY popularity;
+
+--display database items where stock is >30 items in the store, ordered by popularity of items (less popular items might need to have less stock of).
+SELECT * FROM store_items WHERE instock >30 ORDER BY popularity;
+
+--display average price of the top 5 selling items
+SELECT AVG(price) AS Average_Price_of_Top_5_Items FROM store_items WHERE popularity <6;
+
+--displays the minimum and maximum prices of the top 5 selling items
+SELECT MIN(price)AS Min_Price_of_Top_5_Items, MAX(price) AS Max_Price_of_Top_5_Items FROM store_items WHERE popularity <6;
+
+--displays average price of the 5 lowest selling items
+SELECT AVG(price) AS Average_Price_of_Leastpopular_5_Items FROM store_items WHERE popularity >10;
+
+--displays the minimum and maximum prices of the 5 lowest selling items (if low price and low selling, maybe not worth having; if high price and low selling consider changing price to become more appealing)
+SELECT MIN(price)AS Min_Price_of_LeastPopular_5_Items, MAX(price) AS Max_Price_of_LeastPopular_5_Items FROM store_items WHERE popularity >10;
+
+--displays high price and high selling items (might be products to develop more of)
+SELECT * FROM store_items WHERE price >10 AND popularity <5 ORDER BY popularity;
+
+--displays low price and high selling items (might be products that we could consider marking up just slightly to make more profit)
+SELECT * FROM store_items WHERE price >5 AND popularity <5 ORDER BY popularity;
