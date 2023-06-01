@@ -1,7 +1,8 @@
+/*exploring data content of two tables/
 SELECT * FROM BIT_DB.customers LIMIT 20;
-
 SELECT * FROM BIT_DB.JanSales LIMIT 20;
 
+/*cleaning up data, removing unwanted entries in both tables/
 SELECT * FROM BIT_DB.customers
 WHERE length(order_id) = 6
 AND order_id <> 'Order ID';
@@ -10,40 +11,46 @@ SELECT COUNT (orderID) FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
 AND orderID <> 'Order ID';
 
+/*counting the number of sales that occured in January/
 SELECT COUNT (orderID) FROM BIT_DB.JanSales;
 
+/*counting the number of iPhone sales that occured in January(with only cleaned data)/
 SELECT COUNT (orderID) As iPhone_Orders_in_January
 FROM BIT_DB.JanSales
 WHERE Product = "iPhone"
 AND length (orderID) = 6
 AND orderID <> 'Order ID';
 
+/*pulled all customers accounts who purchased items in February/
 SELECT DISTINCT acctnum  FROM BIT_DB.customers cust 
 JOIN BIT_DB.FebSales Feb
 ON BIT_DB.Feb.orderID = BIT_DB.cust.order_id
 WHERE length(order_id) = 6
 AND order_id <> 'Order ID';
- 
+
+/*pulled the lowest cost product and its price from January sales; utilized four different methods of pulling this data/
+/*1./
 SELECT DISTINCT Product, price 
 FROM BIT_DB.JanSales
 ORDER BY price ASC LIMIT 1;
-
-SELECT distinct Product, price
+/*2./
+SELECT DISTINCT Product, price
 FROM BIT_DB.JanSales
 WHERE  price in (SELECT min(price)
 FROM BIT_DB.JanSales);
-
+/*3./
 SELECT distinct product, MIN(price) 
 FROM BIT_DB.JanSales Jan 
 GROUP BY product, price 
 ORDER BY price ASC LIMIT 1;
-
+/*4./
 SELECT product, min(price) 
 FROM BIT_DB.JanSales Jan 
 GROUP BY product, price 
 ORDER BY price ASC
 LIMIT 1;
 
+/* pulled the total revenue for each product sold in January/
 SELECT sum(quantity)*price as revenue,product
 FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
@@ -51,18 +58,12 @@ AND orderID <> 'Order ID'
 GROUP BY product
 ORDER BY price;
 
+/*pulled the number of items and the revenue of items sold to customer living at specific address/
 SELECT product, quantity, sum(quantity)*price as revenue_from_product
 FROM BIT_DB.FebSales
 WHERE location = "548 Lincoln St, Seattle, WA 98101";
 
-SELECT orderID, location
-FROM BIT_DB.FebSales
-WHERE location LIKE "%Lincoln St%";
-
-SELECT *
-FROM BIT_DB.FebSales
-WHERE location LIKE"%548%";
-
+/* pulled the number of customers who ordered more than 2 products during the month of February and the average amount they spent/ 
 SELECT COUNT(distinct cust.acctnum), avg(quantity*price)
 FROM BIT_DB.customers cust 
 JOIN BIT_DB.FebSales Feb
