@@ -71,3 +71,33 @@ ON BIT_DB.Feb.orderID = BIT_DB.cust.order_id
 WHERE Feb.quantity > 2
 AND length(order_id) = 6
 AND order_id <> 'Order ID';
+
+/* pulling orders that occurred between particular dates/
+SELECT orderdate 
+FROM BIT_DB.FebSales
+WHERE orderdate BETWEEN '02/13/19 00:00' AND '02/18/19 01:00';
+
+/* pulling an order that occurred at a specific time and date/
+SELECT location
+FROM BIT_DB.FebSales
+WHERE orderdate = '02/18/19 01:35';
+
+/* pulling number of sales on a particular date/
+SELECT sum (quantity)
+FROM BIT_DB.FebSales
+WHERE orderdate like '02/18/19%';
+
+/* pulling similar product names /
+SELECT distinct Product
+FROM BIT_DB.FebSales
+WHERE Product like '%batteries%';
+
+/* pulling distinct products with price ending in .99/ 
+SELECT distinct Product, Price
+FROM BIT_DB.FebSales
+WHERE price like '%.99';
+
+/* pulling all sales from customers in Los Angeles that took place in February/
+SELECT Product, quantity, location
+FROM BIT_DB.FebSales
+WHERE location like '%Los Angeles%';
