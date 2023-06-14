@@ -1,3 +1,8 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating table
 CREATE TABLE BIT_DB.Spotifydata (
 id integer PRIMARY KEY,
 artist_name varchar NOT NULL,
@@ -18,54 +23,54 @@ tempo decimal(6,3) NOT NULL,
 duration_ms integer NOT NULL,
 time_signature integer NOT NULL );
 
-\*exploring available data\
+#exploring available data
 SELECT * 
 FROM BIT_DB.Spotifydata
 LIMIT 5;
 
-\*pull all songs with a high danceability score, then listing them in order of popularity score\
+#pulls all songs with a high danceability score, then lists them in order of popularity score\
 SELECT popularity, artist_name, track_name, danceability
 FROM BIT_DB.Spotifydata
 WHERE danceability > 0.8
 ORDER BY popularity;
 
-\*pull all songs with a high danceability score AND a high popularity score, then listing them in order of popularity score\
+#pull all songs with a high danceability score AND a high popularity score, then lists them in order of popularity score\
 SELECT popularity, artist_name, track_name, danceability
 FROM BIT_DB.Spotifydata
 WHERE danceability > 0.8
 AND popularity >85
 ORDER BY popularity;
 
-\*pulls the number of songs that have a high danceabiltiy score of >0.8\ 
+#pulls the number of songs that have a high danceabiltiy score of >0.8\ 
 SELECT count(id)
 FROM BIT_DB.Spotifydata
 HAVING danceability >.8;
 
-\*pulls all songs with a high tempo and medium danceability score, then lists them from high tempo to low tempo\
+#pulls all songs with a high tempo and medium danceability score, then lists them from high tempo to low tempo\
 SELECT artist_name, track_name
 FROM BIT_DB.Spotifydata
 WHERE tempo >120
 AND danceability >.5
 ORDER BY tempo desc;
 
-\*pull the average danceability score of all songs\
+#pull the average danceability score of all songs\
 SELECT avg(danceability)
 FROM BIT_DB.Spotifydata;
 
-\*pulls top 10 artists based on their song titles and lists them in order of popularity score\
+#pulls top 10 artists based on their song titles and lists them in order of popularity score\
 SELECT artist_name, track_name
 FROM BIT_DB.Spotifydata
 ORDER BY popularity
 LIMIT 10;
 
-\*pulls the artist name with the longest song\
+#pulls the artist name with the longest song\
 SELECT artist_name, max(duration_ms) 
 FROM  BIT_DB.Spotifydata 
 group by artist_name
 ORDER BY duration_ms desc
 LIMIT 1;
 
-\*pulls the average danceability for the 10 most popular songs\
+#pulls the average danceability for the 10 most popular songs\
 SELECT AVG (danceability)
 FROM BIT_DB.Spotifydata
 where popularity in (SELECT popularity
@@ -73,20 +78,20 @@ FROM BIT_DB.Spotifydata
 ORDER BY popularity asc
 LIMIT 10);
 
-\*groups all artist names and counts the number of titles each has, and lists first the artists witht he most songs\
+#groups all artist names and counts the number of titles each has, and lists first the artists witht he most songs\
 SELECT artist_name, count (*) 
 FROM BIT_DB.Spotifydata
 GROUP BY artist_name
 ORDER BY Count (*) desc;
 
-\*pulls the names of artists who have more than 1 song on the list\
+#pulls the names of artists who have more than 1 song on the list\
 SELECT artist_name, count (*) 
 FROM BIT_DB.Spotifydata
 GROUP BY artist_name
 HAVING count (*) >1
 ORDER BY Count (*) desc;
 
-\*counts the number of songs that fall under the assigned descriptions creaated based on popularity score\
+#counts the number of songs that fall under the assigned descriptions creaated based on popularity score\
 SELECT COUNT(*),
     CASE 
         WHEN popularity >=90 THEN "1.Extremely_Popular" 
