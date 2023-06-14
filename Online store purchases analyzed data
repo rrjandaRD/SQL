@@ -101,3 +101,5 @@ WHERE price like '%.99';
 SELECT Product, quantity, location
 FROM BIT_DB.FebSales
 WHERE location like '%Los Angeles%';
+
+
