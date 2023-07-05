@@ -1,5 +1,4 @@
-# SQL
-SQL portfolio
+-- Created Basic Store Database --
 
 CREATE TABLE store_items 
 (item_number INTEGER PRIMARY KEY, 
