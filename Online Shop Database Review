@@ -1,8 +1,10 @@
-/*exploring data content of two tables/
+-- Using BIT_DB database, explored and extracted customer data from January 2019--
+
+--exploring data content of two tables--
 SELECT * FROM BIT_DB.customers LIMIT 20;
 SELECT * FROM BIT_DB.JanSales LIMIT 20;
 
-/*cleaning up data, removing unwanted entries in both tables/
+--cleaning up data, removing unwanted entries in both tables/
 SELECT * FROM BIT_DB.customers
 WHERE length(order_id) = 6
 AND order_id <> 'Order ID';
@@ -11,24 +13,24 @@ SELECT COUNT (orderID) FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
 AND orderID <> 'Order ID';
 
-/*counting the number of sales that occured in January/
+--counts the number of sales that occurred in January/
 SELECT COUNT (orderID) FROM BIT_DB.JanSales;
 
-/*counting the number of iPhone sales that occured in January(with only cleaned data)/
+--counts the number of iPhone sales that occurred in January(with only cleaned data)/
 SELECT COUNT (orderID) As iPhone_Orders_in_January
 FROM BIT_DB.JanSales
 WHERE Product = "iPhone"
 AND length (orderID) = 6
 AND orderID <> 'Order ID';
 
-/*pulled all customers accounts who purchased items in February/
+-- displays all customers accounts who purchased items in February/
 SELECT DISTINCT acctnum  FROM BIT_DB.customers cust 
 JOIN BIT_DB.FebSales Feb
 ON BIT_DB.Feb.orderID = BIT_DB.cust.order_id
 WHERE length(order_id) = 6
 AND order_id <> 'Order ID';
 
-/*pulled the lowest cost product and its price from January sales; utilized four different methods of pulling this data/
+-- displays the lowest cost product and its price from January sales; utilized four different methods of pulling this data/
 /*1./
 SELECT DISTINCT Product, price 
 FROM BIT_DB.JanSales
@@ -50,7 +52,7 @@ GROUP BY product, price
 ORDER BY price ASC
 LIMIT 1;
 
-/* pulled the total revenue for each product sold in January/
+-- displayed the total revenue for each product sold in January/
 SELECT sum(quantity)*price as revenue,product
 FROM BIT_DB.JanSales
 WHERE length(orderID) = 6
@@ -58,12 +60,12 @@ AND orderID <> 'Order ID'
 GROUP BY product
 ORDER BY price;
 
-/*pulled the number of items and the revenue of items sold to customer living at specific address/
+--displays the number of items and the revenue of items sold to customers living at a specific address/
 SELECT product, quantity, sum(quantity)*price as revenue_from_product
 FROM BIT_DB.FebSales
 WHERE location = "548 Lincoln St, Seattle, WA 98101";
 
-/* pulled the number of customers who ordered more than 2 products during the month of February and the average amount they spent/ 
+--displays the number of customers who ordered more than 2 products during the month of February and the average amount they spent/ 
 SELECT COUNT(distinct cust.acctnum), avg(quantity*price)
 FROM BIT_DB.customers cust 
 JOIN BIT_DB.FebSales Feb
@@ -72,32 +74,32 @@ WHERE Feb.quantity > 2
 AND length(order_id) = 6
 AND order_id <> 'Order ID';
 
-/* pulling orders that occurred between particular dates/
+-- displays orders that occurred between particular dates/
 SELECT orderdate 
 FROM BIT_DB.FebSales
 WHERE orderdate BETWEEN '02/13/19 00:00' AND '02/18/19 01:00';
 
-/* pulling an order that occurred at a specific time and date/
+-- displays an order that occurred at a specific time and date/
 SELECT location
 FROM BIT_DB.FebSales
 WHERE orderdate = '02/18/19 01:35';
 
-/* pulling number of sales on a particular date/
+-- displays number of sales on a particular date/
 SELECT sum (quantity)
 FROM BIT_DB.FebSales
 WHERE orderdate like '02/18/19%';
 
-/* pulling similar product names /
+-- displays similar product names /
 SELECT distinct Product
 FROM BIT_DB.FebSales
 WHERE Product like '%batteries%';
 
-/* pulling distinct products with price ending in .99/ 
+-- displays distinct products with price ending in .99/ 
 SELECT distinct Product, Price
 FROM BIT_DB.FebSales
 WHERE price like '%.99';
 
-/* pulling all sales from customers in Los Angeles that took place in February/
+-- displays all sales from customers in Los Angeles that took place in February/
 SELECT Product, quantity, location
 FROM BIT_DB.FebSales
 WHERE location like '%Los Angeles%';
