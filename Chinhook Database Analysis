@@ -1,4 +1,4 @@
--- Chinhook Database Management & Analysis--
+--- Chinhook Database Management & Analysis---
 
 --Explore Data from tables--
 SELECT * FROM customers
